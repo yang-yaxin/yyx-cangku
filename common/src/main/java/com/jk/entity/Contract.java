@@ -19,6 +19,6 @@ public class Contract {
 
     private Date expirationDate;
 
-   private String type;
-   private String person;
+   private String typeName;
+   private String sren;
 }

@@ -4,7 +4,7 @@ server:
   #配置实例名称
 spring:
   application:
-    name: contract-provider #配置多个实例名称，springCloud集群
+    name: provider-contract #配置多个实例名称，springCloud集群
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://LAPTOP-ZF:3306/administration?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
