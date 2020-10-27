@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap-table.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstarp/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstarp/bootstrap-table.css}" />
+</head>
+<body>
+<div class="container">
+
+    <form class="form-horizontal" th:action="@{/saveContract}" method="post">
+        <input type="hidden" name="id" th:value="${contract.id}" />
+        <div class="form-group">
+            <label for="contractNo" class="col-sm-2 control-label">合同编号</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="contractNo"  id="contractNo" placeholder="contractNo" th:value="${contract.contractNo}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="contractName" class="col-sm-2 control-label">合同名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="contractName"  id="contractName" placeholder="empName" th:value="${contract.contractName}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="contractType" class="col-sm-2 control-label">合同类型</label>
+            <div class="col-sm-10">
+                <select data-placeholder="请选择" name="contractType" id="contractType"
+                        class="form-control"  th:value="${contract.contractType}">
+                    <option th:selected="${contract.contractType=='1'}" value='1'>销售合同</option>
+                    <option th:selected="${contract.contractType=='2'}" value='2'>租赁合同</option>
+                    <option th:selected="${contract.contractType=='3'}" value='3'>借款合同</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="personId" class="col-sm-2 control-label">负责人</label>
+            <div class="col-sm-10">
+                <select data-placeholder="请选择" name="personId" id="personId"
+                        class="form-control"  th:value="${contract.personId}">
+                    <option th:selected="${contract.personId=='1'}" value='1'>yyx</option>
+                    <option th:selected="${contract.personId=='2'}" value='2'>cgs</option>
+                    <option th:selected="${contract.personId=='3'}" value='3'>zf</option>
+                </select>
+            </div>
+        </div>
+       <!-- <div class="form-group">
+            <label for="effectiveDate" class="col-sm-2 control-label">生效日期</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="effectiveDate"  id="effectiveDate" placeholder="effectiveDate" th:value="${contract.effectiveDate}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="expirationDate" class="col-sm-2 control-label">失效日期</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="empTime"  id="expirationDate" placeholder="createTime" th:value="${contract.expirationDate}"/>
+            </div>
+        </div>-->
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="Submit" class="btn btn-info" />
+                <a th:href="@{/contract}" class="btn btn-info">Back</a>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

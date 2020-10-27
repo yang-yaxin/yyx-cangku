@@ -14,6 +14,7 @@
         <module>project-provider</module>
         <module>feign</module>
         <module>cost-provider</module>
+        <module>provider-contract</module>
     </modules>
 
 
