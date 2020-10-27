@@ -50,4 +50,10 @@ public class ContractController {
         model.addAttribute("contract",contract);
         return "addContract";
     }
+    @RequestMapping("findContractById")
+    public String findContractById(Integer id,Model model){
+        Contract contract=contractService.findContractOne(id);
+        model.addAttribute("contract",contract);
+        return "contract_details";
+    }
 }
