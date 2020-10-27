@@ -13,6 +13,7 @@
         <module>eureka</module>
         <module>project-provider</module>
         <module>feign</module>
+        <module>cost-provider</module>
     </modules>
 
 
