@@ -37,9 +37,10 @@ public class ContractController {
     }
 
     @RequestMapping("saveContract")
-    @ResponseBody
-    public void saveContract( Contract contract){
+
+    public String saveContract( Contract contract){
         contractService.saveContract(contract);
+        return "contract";
     }
 
     @RequestMapping("findContractOne")
