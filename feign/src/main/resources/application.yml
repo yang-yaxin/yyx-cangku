@@ -4,12 +4,18 @@ server:
 spring:
   application:
     name: feign
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
 
   redis:
     host: 127.0.0.1
     port: 6379
     database: 0
-    timeout: 1000
+    timeout: 10000
     jedis:
       pool:
         max-active: 200
@@ -25,3 +31,8 @@ eureka:
 feign:
   hystrix:
     enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 200000
+        readTimeout: 200000

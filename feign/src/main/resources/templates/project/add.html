@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/dist/css/bootstrap.css}">
+    <script th:src="@{/webjars/jquery/3.5.1/dist/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7/dist/js/bootstrap.min.js}"></script>
+    <title>新增|修改</title>
+</head>
+<body>
+
+    <div class="container">
+        <form class="form-horizontal" th:action="@{/project/saveProject}" method="post">
+            <input th:type="hidden" name="id" th:value="${project.id}" />
+            <div class="form-group">
+                <label for="projectId" class="col-sm-2 control-label">项目编号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="projectId"  id="projectId" th:value="${project.projectId}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="projectName" class="col-sm-2 control-label">项目名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="projectName"  id="projectName" th:value="${project.projectName}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="person" class="col-sm-2 control-label">项目负责人</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="person"  id="person" th:value="${project.person}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="progress" class="col-sm-2 control-label">当前进度</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="progress"  id="progress" th:value="${project.progress}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="status" class="col-sm-2 control-label">状态</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="status"  id="status" data-placeholder="请选择状态" th:value="${project.status}">
+                        <option th:selected="${project.status==0}" value='0'>进行中</option>
+                        <option th:selected="${project.status==1}" value='1'>已完成</option>
+                        <option th:selected="${project.status==2}" value='2'>已延期</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="保存" class="btn btn-info" />
+                    <a th:href="@{/project/findAll}" class="btn btn-info">返回主页</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
