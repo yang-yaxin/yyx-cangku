@@ -3,6 +3,7 @@ package com.jk.entity;
 import lombok.Data;
 
 import java.util.Date;
+
 @Data
 public class Project {
     private Integer id;

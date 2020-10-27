@@ -12,6 +12,7 @@
         <module>common</module>
         <module>eureka</module>
         <module>project-provider</module>
+        <module>feign</module>
     </modules>
 
 

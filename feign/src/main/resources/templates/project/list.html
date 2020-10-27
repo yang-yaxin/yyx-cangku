@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/dist/css/bootstrap.css}">
+    <script th:src="@{/webjars/jquery/3.5.1/dist/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7/dist/js/bootstrap.min.js}"></script>
+    <title>用户列表</title>
+</head>
+<body>
+<div class="container">
+    <h1>用户列表</h1>
+    <div class="text-left">
+        <div class="form-group">
+            <div class="col-sm-5">
+                <a th:href="@{/project/toAdd}" class="btn btn-default">新增</a>
+                <button onclick="deleteAll()" class="btn btn-default">批量删除</button>
+            </div>
+            <div class="col-sm-4">
+                <input placeholder="输入项目名" id="projectName" class="form-control">
+            </div>
+            <label class="col-sm-2 control-label">
+                <a href="javascript:void(0)" onclick="sou()" class="btn btn-default">搜索</a>
+            </label>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th><input type="checkbox"></th>
+            <th>序号</th>
+            <th>项目编号</th>
+            <th>项目名</th>
+            <th>项目负责人</th>
+            <th>当前阶段</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projectList}">
+            <td><input type="checkbox" th:value="${project.id}" th:name="ck"></td>
+            <td th:text="${project.id}"></td>
+            <td th:text="${project.projectId}"></td>
+            <td th:text="${project.projectName}"></td>
+            <td th:text="${project.person}"></td>
+            <td th:text="${project.progress}"></td>
+            <td>
+                <span th:if="${project.status==0}">进行中</span>
+                <span th:if="${project.status==1}">已完成</span>
+                <span th:if="${project.status==2}">已延期</span>
+            </td>
+            <td th:text="${#dates.format(project.startDate, 'yyyy-MM-dd')}"></td>
+            <td>
+                <a class="btn btn-default" th:href="@{/project/toUpdate(id=${project.id})}">修改</a>
+                |
+                <a class="btn btn-default" th:href="@{/project/deleteByIds(ids=${project.id})}">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script>
+    function sou(){
+        var projectName=$('#projectName').val();
+        location.href="/project/findAll?projectName="+projectName;
+    }
+    //批删
+    function deletAll(){
+        var arr=$("[name='ck']");
+        var ids="";
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].checked){
+                ids+=ids==""?arr[i].value:","+arr[i].value;
+            }
+        }
+        if(ids==""){
+            alert("未选择")
+        }else{
+            alert(ids)
+            deletOne(ids)
+        }
+    }
+    //单删
+    function deletOne(id){
+
+        if(confirm("确认删除吗,删除后不可恢复")){
+            $.ajax({
+                url:'/project/deleteByIds',
+                data:{ids:id},
+                type:'post',
+                success:function(data){
+                    alert("已删除")
+                },
+                error:function(){
+                    alert("操作失败")
+                }
+            })
+        }
+    }
+</script>
+</html>
