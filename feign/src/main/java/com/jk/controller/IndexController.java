@@ -12,4 +12,9 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping("/china")
+    public String china(){
+        return "show";
+    }
+
 }
