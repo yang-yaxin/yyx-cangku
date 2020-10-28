@@ -3,18 +3,27 @@ server:
 
 spring:
   application:
-    name: config
+    name: config-server
   cloud:
     config:
-      label: master
       server:
         git:
           uri: https://github.com/zhaofan10086/springcloud-config.git
           search-paths: /
           username:
           password:
-          skip-ssl-validation: true #放弃安全认证
+          skip-ssl-validation: true
+      label: master
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+    sampler:
+      probability: 1
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
