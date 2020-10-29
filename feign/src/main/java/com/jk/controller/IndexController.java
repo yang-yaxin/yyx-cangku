@@ -9,8 +9,14 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String memberRankList() {
-        return "index";
+        return "cgs/index";
     }
+
+    @RequestMapping("/dingcan")
+    public String dingcan() {
+        return "cgs/dingcan";
+    }
+
 
     @RequestMapping("/china")
     public String china(){
