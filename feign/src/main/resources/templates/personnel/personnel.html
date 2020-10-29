@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>订单管理</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/dist/css/bootstrap.css}">
+    <script th:src="@{/webjars/jquery/3.5.1/dist/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7/dist/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" src="../vue/vue.min.js"></script>
+    <script type="text/javascript" src="../bootstrap/bootstrap-paginator.js"></script>
+
+
+</head>
+<body>
+<div class="container">
+    <div class="box-header with-border">
+        <h3 class="box-title">人才管理</h3>
+    </div>
+
+    <div class="box-body" id="app">
+
+        <!-- 数据表格 -->
+        <div class="table-box">
+
+            <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" v-on:click="brand = {}"><i class="fa fa-file-o" shiro:hasPermission="personnel:save"></i> 新建</button>
+
+                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-tools pull-right">
+                <div class="has-feedback">
+                    名称：<input type="text" v-model="name" />
+
+                    <button type="button" class="btn bg-olive" onclick="searchMemberRankList()" >查询</button>
+                </div>
+            </div>
+            <!--工具栏/-->
+
+            <!--数据列表-->
+            <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                <thead>
+                <tr>
+                    <th class="" style="padding-right:0px">
+                        <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                    </th>
+
+                    <th class="sorting">序号</th>
+                    <th class="sorting">姓名</th>
+                    <th class="sorting">应聘岗位</th>
+                    <th class="sorting">联系方式</th>
+                    <th class="sorting">信息来源</th>
+                    <th class="sorting">面试反馈</th>
+                    <th class="sorting">人员状态</th>
+                    <th class="sorting">操作</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="personnel in personnelList">
+                    <td><input  type="checkbox" v-on:click="updateSelection($event, personnel.id)"></td>
+
+                    <td>{{personnel.id}}</td>
+                    <td>{{personnel.name}}</td>
+                    <td>{{personnel.job}}</td>
+                    <td>{{personnel.pho}}</td>
+                    <td>{{personnel.source}}</td>
+                    <td>{{personnel.feedback}}
+                        <span v-if="personnel.feedback==='1'">录用</span>
+                        <span v-else-if="personnel.feedback==='2'">不合格</span>
+                        <span v-else-if="personnel.feedback==='3'">持续沟通</span>
+                    </td>
+                    <td>
+                        <span v-if="personnel.status === '1'">已完成</span>
+                        <span v-else-if="personnel.status === '2'">跟进中</span>
+                    </td>
+
+
+
+                    <td class="text-center">
+                        <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" v-on:click="findOne(personnel.id)" shiro:hasPermission="personnel:update">修改</button>
+                        <button type="button" class="btn bg-olive btn-xs" v-on:click="deleteOne(personnel.id)" shiro:hasPermission="personnel:delete">删除</button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div id="example" style="text-align: center"> <ul id="pageLimit"></ul> </div>
+
+        </div>
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 id="myModalLabel">seo</h3>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped"  width="800px">
+                            <tr>
+                                <td>姓名</td>
+                                <td><input  class="form-control" placeholder="姓名" v-model="personnel.name">  </td>
+                            </tr>
+                            <tr>
+                                <td>应聘岗位</td>
+                                <td>
+                                    <select v-model="personnel.job" class="form-control">
+                                        <option value="">选择选择职位</option>
+                                        <option value="产品经理">产品经理</option>
+                                        <option value="测试经理">测试经理</option>
+                                        <option value="测试专员">测试专员</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>联系方式</td>
+                                <td><input  class="form-control" placeholder="联系方式" v-model="personnel.pho">  </td>
+                            </tr>
+                            <tr>
+                                <td>信息来源</td>
+                                <td><input  class="form-control" placeholder="信息来源" v-model="personnel.source">  </td>
+                            </tr>
+                            <tr>
+                                <td>面试反馈</td>
+                                <td>
+                                    <input type="radio" id="ly" value="1" v-model="personnel.feedback">
+                                    <label for="ly">录用</label>
+                                    <input type="radio" id="bjg" value="2" v-model="personnel.feedback">
+                                    <label for="bjg">不合格</label>
+                                    <input type="radio" id="gt" value="3" v-model="personnel.feedback">
+                                    <label for="gt">持续沟通</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>面试反馈</td>
+                                <td>
+                                    <input type="radio" id="ok" value="1" v-model="personnel.status">
+                                    <label for="ok">已完成</label>
+                                    <input type="radio" id="no" value="2" v-model="personnel.status">
+                                    <label for="no">跟进中</label>
+
+                                </td>
+                            </tr>
+
+                            <input type="hidden" v-model="personnel.id">
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" v-on:click="saveBrand()">保存</button>
+                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            personnelList: "",
+            totalPage:"",
+            total:"",
+            currPage:"",
+            pageSize:"",
+            name:"",
+            personnel:{
+                id:'',
+                name:'',
+                job:'',
+                pho:'',
+                source:'',
+                feedback:'',
+                status:''
+            },
+            selectIds: ''
+        }
+    })
+
+    $(function() {
+        searchMemberRankList();
+    })
+
+    function searchMemberRankList() {
+        $.ajax({
+            type:"post",
+            url:"../personnelList",
+            data:{"currPage":vm.currPage,"pageSize":vm.pageSize,"name":vm.name},
+            dataType:"json",
+            success: function(result) {
+                vm.personnelList = result.rows;
+                vm.totalPage = result.totalPage;
+                vm.total = result.total;
+                vm.currPage = result.currPage;
+                vm.pageSize = result.pageSize;
+                setPage(result.currPage,result.totalPage,result.pageSize,searchMemberRankList);
+            },
+            error : function() {
+                alert("系统错误，请联系管理员！");
+            }
+        })
+    }
+
+    /**
+     *
+     * @param pageCurrent 当前所在页
+     * @param pageSum 总页数
+     * @param callback 调用ajax
+     */
+    function setPage(pageCurrent, pageSum, pageSize, callback) {
+        $('#pageLimit').bootstrapPaginator({
+            currentPage: pageCurrent,//当前的请求页面。
+            totalPages: pageSum,//一共多少页。
+            size:"normal",//应该是页眉的大小。
+            bootstrapMajorVersion: 3,//bootstrap的版本要求。
+            alignment:"right",
+            numberOfPages:pageSize,//一页列出多少数据。
+            itemTexts: function (type, page, current) {//如下的代码是将页眉显示的中文显示我们自定义的中文。
+                switch (type) {
+                    case "first": return "首页";
+                    case "prev": return "上一页";
+                    case "next": return "下一页";
+                    case "last": return "末页";
+                    case "page": return page;
+                }
+            },
+            //当单击操作按钮的时候, 执行该函数, 调用ajax渲染页面
+            onPageClicked: function (event,originalEvent,type,page) {
+                // 把当前点击的页码赋值给currentPage, 调用ajax,渲染页面
+                vm.currPage = page;
+                callback && callback()
+            }
+        });
+    }
+
+
+
+
+
+    vm.selectIds = [];
+    //复选框选中
+    function updateSelection($event, id) {
+        if ($event.target.checked) {
+            vm.selectIds.push(id);
+        } else {
+            var idx = vm.selectIds.indexOf(id);
+            vm.selectIds.splice(idx, 1);//删除
+        }
+
+        console.info(vm.selectIds.toString());
+    }
+
+
+
+    function deleteOne(id){
+        $.ajax({
+            type:'post',
+            url:'../deletePersonnelOne',
+            data:{'id': id},
+            dataType:'json',
+            success:function () {
+
+
+                $("input[type='checkbox']").prop("checked", false);
+                this.widows.location.href="";
+
+            },
+            error: function (result) {
+
+            }
+        })
+    }
+
+    //保存
+    function saveBrand() {
+
+        $.ajax({
+            type: 'post',
+            url: "savePersonnel",
+            data: vm.personnel,
+            dataType: 'json',
+            success: function () {
+                this.widows.location.href="";
+            },
+
+        })
+    }
+
+    //修改回显
+    function findOne(id) {
+        $.ajax({
+            type:'post',
+            url:'findPersonnelOne',
+            data:{'id': id},
+            dataType: 'json',
+            success: function (result) {
+                vm.personnel = result;
+            },
+
+        })
+    }
+
+</script>
+</body>
+</html>

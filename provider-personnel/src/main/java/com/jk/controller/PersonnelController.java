@@ -26,4 +26,10 @@ public class PersonnelController {
     public Personnel findPersonnelOne(@RequestParam Integer id){
         return personnelService.findPersonnelOne(id);
     }
+
+    @RequestMapping("deletePersonnelOne")
+    public void deletePersonnelOne(@RequestParam Integer id){
+
+        personnelService.deletePersonnelOne(id);
+    }
 }

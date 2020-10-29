@@ -9,4 +9,6 @@ public interface PersonnelService {
     void savePersonnel(Personnel personnel);
 
     Personnel findPersonnelOne(Integer id);
+
+    void deletePersonnelOne(Integer id);
 }

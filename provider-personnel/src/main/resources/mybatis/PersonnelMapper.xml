@@ -116,14 +116,20 @@
   </update>
   <select id="count" resultType="java.lang.Long">
     select count(*) from t_personnel
-    <include refid="contractSql"></include>
 
   </select>
 
-  <select id="personnelList" resultType="Contract" >
+  <select id="personnelList" resultType="Personnel" >
     <bind name="key_off" value="(currPage - 1)*pageSize"/>
     select * from t_personnel
 
     limit ${key_off},${pageSize}
   </select>
+  <sql id="personnelSql">
+    <where>
+      <if test="personnel.name!=null and personnel.name!=''">
+            and name like'%${personnel.name}%'
+      </if>
+    </where>
+  </sql>
 </mapper>
