@@ -35,4 +35,9 @@ public class PersonnelServiceImpl implements PersonnelService {
     public Personnel findPersonnelOne(Integer id) {
         return personnelMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public void deletePersonnelOne(Integer id) {
+        personnelMapper.deleteByPrimaryKey(id);
+    }
 }
