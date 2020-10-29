@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/dist/css/bootstrap.css}">
@@ -13,15 +13,17 @@
     <div class="text-left">
         <div class="form-group">
             <div class="col-sm-5">
-                <a th:href="@{/project/toAdd}" class="btn btn-default">新增</a>
-                <button onclick="deleteAll()" class="btn btn-default">批量删除</button>
+                <a th:href="@{/project/toAdd}" class="btn btn-default" shiro:hasPermission="project:save">新增</a>
+                <button onclick="deleteAll()" class="btn btn-default" shiro:hasPermission="project:delete">批量删除</button>
             </div>
+            <shiro:hasPermission name="project:query">
             <div class="col-sm-4">
                 <input placeholder="输入项目名" id="projectName" class="form-control">
             </div>
             <label class="col-sm-2 control-label">
                 <a href="javascript:void(0)" onclick="sou()" class="btn btn-default">搜索</a>
             </label>
+            </shiro:hasPermission>
         </div>
     </div>
     <table class="table table-bordered">
@@ -53,9 +55,9 @@
             </td>
             <td th:text="${#dates.format(project.startDate, 'yyyy-MM-dd')}"></td>
             <td>
-                <a class="btn btn-default" th:href="@{/project/toUpdate(id=${project.id})}">修改</a>
+                <a class="btn btn-default" th:href="@{/project/toUpdate(id=${project.id})}" shiro:hasPermission="project:update">修改</a>
                 |
-                <a class="btn btn-default" th:href="@{/project/deleteByIds(ids=${project.id})}">删除</a>
+                <a class="btn btn-default" th:href="@{/project/deleteByIds(ids=${project.id})}" shiro:hasPermission="project:delete">删除</a>
             </td>
         </tr>
         </tbody>

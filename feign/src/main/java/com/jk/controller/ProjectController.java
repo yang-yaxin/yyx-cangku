@@ -2,6 +2,7 @@ package com.jk.controller;
 
 import com.jk.entity.Project;
 import com.jk.service.ProjectService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +23,11 @@ public class ProjectController {
 
     /**
      * 列表
-     * @param Project
+     * @param
      * @return
      */
     @RequestMapping("/findAll")
+    @RequiresPermissions("project:query")
     public  String findAll(Project project, Model model){
         List<Project> list=projectService.findAll(project);
         model.addAttribute("projectList",list);
@@ -37,6 +39,7 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/toAdd")
+    @RequiresPermissions("project:save")
     public String toAdd(Model model){
         Project project=new Project();
         model.addAttribute("project",project);
@@ -48,6 +51,7 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/toUpdate")
+    @RequiresPermissions("project:update")
     public String toUpdate(Integer id,Model model){
         Project project=projectService.findProjectById(id);
         model.addAttribute("project",project);
@@ -60,6 +64,7 @@ public class ProjectController {
      */
     @RequestMapping("/addProject")
     @ResponseBody
+    @RequiresPermissions("project:save")
     public void addProject(Project project){
         project.setStartDate(new Date());
         projectService.addProject(project);
@@ -72,6 +77,7 @@ public class ProjectController {
      */
     @RequestMapping("/findProjectById")
     @ResponseBody
+    @RequiresPermissions("project:update")
     public Project findProjectById(@RequestParam(value="id") Integer id){
         return  projectService.findProjectById(id);
     }
@@ -82,6 +88,7 @@ public class ProjectController {
      */
     @RequestMapping("/updateProject")
     @ResponseBody
+    @RequiresPermissions("project:update")
     public void updateProject(Project project){
         projectService.updateProject(project);
     }
@@ -92,6 +99,7 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/saveProject")
+    @RequiresPermissions("project:save")
     public String saveProject(Project project){
         if(project.getId()==null){
             projectService.addProject(project);
@@ -107,6 +115,7 @@ public class ProjectController {
      * @param ids
      */
     @RequestMapping("/deleteByIds")
+    @RequiresPermissions("project:delete")
     public String deleteByIds(@RequestParam(value="ids") String[] ids){
         projectService.deleteByIds(ids);
         return "redirect:findAll";

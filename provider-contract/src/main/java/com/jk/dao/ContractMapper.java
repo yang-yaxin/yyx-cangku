@@ -2,6 +2,7 @@ package com.jk.dao;
 
 import com.jk.entity.Contract;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface ContractMapper {
 
     int updateByPrimaryKey(Contract record);
 
-    Long count(Contract contract);
+    Long count(@Param("contract")Contract contract);
 
-    List<Contract> ContractList(Integer currPage, Integer pageSize, Contract contract);
+    List<Contract> ContractList(@Param("currPage") Integer currPage,@Param("pageSize") Integer pageSize,@Param("contract") Contract contract);
 }

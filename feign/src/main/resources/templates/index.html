@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/dist/css/bootstrap.css}">
@@ -14,6 +15,7 @@
 
 <title>费用管理</title>
 <div id="app" class="container">
+    <shiro:hasPermission name="fei:query">
     <form action="" id="list_form">
         <div class="form-group">
             <div class="col-sm-3">
@@ -22,14 +24,15 @@
         </div>
         <button type="button" class="btn btn-default" onclick="findProductPage()">搜索</button>
     </form>
+    </shiro:hasPermission>
     <br>
     <br>
    <!--工具栏-->
     <div class="pull-left">
         <div class="form-group form-inline">
             <div class="btn-group">
-                <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" v-on:click="brand = {}"><i class="fa fa-file-o"></i> 新建</button>
-                <button type="button" class="btn btn-default" title="删除" v-on:click="deleteByIds()"><i class="fa fa-trash-o"></i> 删除</button>
+                <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" v-on:click="brand = {}"><i class="fa fa-file-o" shiro:hasPermission="fei:save"></i> 新建</button>
+                <button type="button" class="btn btn-default" title="删除" v-on:click="deleteByIds()"><i class="fa fa-trash-o" shiro:hasPermission="fei:delete"></i> 删除</button>
                 <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
             </div>
         </div>
@@ -54,7 +57,7 @@
             <td>{{seo.status}}</td>
             <td>{{seo.date}}</td>
             <td class="text-center">
-                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" v-on:click="findOne(seo.id)" >修改</button>
+                <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" v-on:click="findOne(seo.id)" shiro:hasPermission="fei:update">修改</button>
             </td>
         </tr>
     </table>
@@ -91,7 +94,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" v-on:click="saveBrand()">保存</button>
+                    <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" v-on:click="saveBrand()" shiro:hasPermission="fei:save">保存</button>
                     <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
                 </div>
             </div>
