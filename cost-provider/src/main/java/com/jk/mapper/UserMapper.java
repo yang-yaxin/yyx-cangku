@@ -2,6 +2,8 @@ package com.jk.mapper;
 
 
 import com.jk.entity.Fei;
+import com.jk.entity.SysUser;
+import com.jk.entity.Tree;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +23,10 @@ public interface UserMapper {
     void update(Fei seo);
 
     void del(int parseInt);
+
+    SysUser selectUserInfoByCode(@Param("userCode") String userCode);
+
+    List<Tree> selectTreeList(Integer pid, Integer userId);
+
+    List<String> selectPowerKeyList(Integer userId);
 }

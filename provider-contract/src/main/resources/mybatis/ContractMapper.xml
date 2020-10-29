@@ -116,12 +116,21 @@
   </update>
   <select id="count" resultType="java.lang.Long">
     select count(*) from t_contract
+    <include refid="contractSql"></include>
 
   </select>
 
   <select id="ContractList" resultType="Contract" >
     <bind name="key_off" value="(currPage - 1)*pageSize"/>
     select * from t_contract c left join contract_type t on c.contract_type=t.type_id left join t_person p on c.person_id=p.sid
+    <include refid="contractSql"></include>
     limit ${key_off},${pageSize}
   </select>
+  <sql id="contractSql">
+    <where>
+      <if test="contract.contractName!=null and contract.contractName!=''">
+         and contract_name like'%${contract.contractName}%'
+      </if>
+    </where>
+  </sql>
 </mapper>

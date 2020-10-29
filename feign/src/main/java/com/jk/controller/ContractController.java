@@ -3,6 +3,7 @@ package com.jk.controller;
 import com.jk.entity.Contract;
 import com.jk.pojo.PageResult;
 import com.jk.service.ContractService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +15,13 @@ public class ContractController {
     @Resource
     private ContractService contractService;
     @RequestMapping("contract")
+    @RequiresPermissions("contract:query")
     public String contract(){
         return "contract";
     }
 
     @RequestMapping("addContract")
+    @RequiresPermissions("contract:save")
     public String addContract(Model model){
         model.addAttribute("contract",new Contract());
         return "addContract";
@@ -32,19 +35,20 @@ public class ContractController {
 
     @RequestMapping("deleteContractByIds")
     @ResponseBody
+    @RequiresPermissions("contract:delete")
     public void deleteContractByIds(String[] ids){
         contractService.deleteContractByIds(ids);
     }
 
     @RequestMapping("saveContract")
-
+    @RequiresPermissions("contract:save")
     public String saveContract( Contract contract){
         contractService.saveContract(contract);
         return "contract";
     }
 
     @RequestMapping("findContractOne")
-
+    @RequiresPermissions("contract:update")
     public String findContractOne(Integer id,Model model){
         Contract contract=contractService.findContractOne(id);
         model.addAttribute("contract",contract);
