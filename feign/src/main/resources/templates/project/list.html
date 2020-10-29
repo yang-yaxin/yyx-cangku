@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/dist/css/bootstrap.css}">
@@ -14,7 +15,8 @@
         <div class="form-group">
             <div class="col-sm-5">
                 <a th:href="@{/project/toAdd}" class="btn btn-default" shiro:hasPermission="project:save">新增</a>
-                <button onclick="deleteAll()" class="btn btn-default" shiro:hasPermission="project:delete">批量删除</button>
+                <a href="javascript:deletAll()" class="btn btn-default" shiro:hasPermission="project:delete">批量删除</a>
+                <a href="#" class="btn btn-default">刷新</a>
             </div>
             <shiro:hasPermission name="project:query">
             <div class="col-sm-4">
@@ -29,7 +31,7 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th><input type="checkbox"></th>
+            <th><input type="checkbox" onclick="ckAll()" id="ck"></th>
             <th>序号</th>
             <th>项目编号</th>
             <th>项目名</th>
@@ -42,7 +44,7 @@
         </thead>
         <tbody>
         <tr th:each="project : ${projectList}">
-            <td><input type="checkbox" th:value="${project.id}" th:name="ck"></td>
+            <td><input type="checkbox" th:value="${project.id}" name="ck"></td>
             <td th:text="${project.id}"></td>
             <td th:text="${project.projectId}"></td>
             <td th:text="${project.projectName}"></td>
@@ -65,6 +67,16 @@
 </div>
 </body>
 <script>
+    //全选|反选
+    function ckAll(){
+        var arr=$("[name='ck']");
+        alert()
+        for(var i=0;i<arr.length;i++){
+
+        }
+    }
+
+
     function sou(){
         var projectName=$('#projectName').val();
         location.href="/project/findAll?projectName="+projectName;
@@ -81,7 +93,6 @@
         if(ids==""){
             alert("未选择")
         }else{
-            alert(ids)
             deletOne(ids)
         }
     }
@@ -94,7 +105,8 @@
                 data:{ids:id},
                 type:'post',
                 success:function(data){
-                    alert("已删除")
+                    alert("已删除");
+                    location.href=location;
                 },
                 error:function(){
                     alert("操作失败")

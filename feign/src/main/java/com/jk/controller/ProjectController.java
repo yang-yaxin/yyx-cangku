@@ -102,6 +102,7 @@ public class ProjectController {
     @RequiresPermissions("project:save")
     public String saveProject(Project project){
         if(project.getId()==null){
+            project.setStartDate(new Date());
             projectService.addProject(project);
         }else{
             projectService.updateProject(project);
