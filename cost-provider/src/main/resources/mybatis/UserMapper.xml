@@ -51,6 +51,21 @@ left join t_person q on x.ren=q.sid
          update feiyong set type=#{type},price=#{price},ren=#{ren},status=#{status} where id = #{id}
     </update>
 
+    <select id="selectUserInfoByCode" parameterType="string" resultType="SysUser">
+        select * from sys_user where usercode=#{userCode}
+    </select>
+
+    <select id="selectTreeList" resultType="Tree">
+        select sp.id as id,sp.name as text,sp.url as href,sp.parentid as pid from
+        sys_user_role sur,
+        sys_role_permission srp,
+        sys_permission sp
+        where sur.sys_user_id=#{userId} and
+        sur.sys_role_id=srp.sys_role_id and
+        srp.sys_permission_id=sp.id and
+        sp.parentid=#{pid} and
+        sp.type='menu'
+    </select>
 
 
 
@@ -98,4 +113,13 @@ left join t_person q on x.ren=q.sid
 
 
 
+    <select id="selectPowerKeyList" resultType="string" parameterType="integer">
+        select sp.percode from
+        sys_user_role sur,
+        sys_role_permission srp,
+        sys_permission sp
+        where sur.sys_user_id=#{userId} and
+        sur.sys_role_id=srp.sys_role_id and
+        srp.sys_permission_id=sp.id and (sp.percode &lt;&gt; '' or sp.percode is not NULL)
+    </select>
 </mapper>

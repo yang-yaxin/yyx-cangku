@@ -3,6 +3,8 @@ package com.jk.mapper;
 
 import com.jk.entity.Fei;
 import com.jk.entity.Ordering;
+import com.jk.entity.SysUser;
+import com.jk.entity.Tree;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +37,9 @@ public interface UserMapper {
     Ordering hui(Integer id);
 
     void up(Ordering ordering);
+    SysUser selectUserInfoByCode(@Param("userCode") String userCode);
+
+    List<Tree> selectTreeList(Integer pid, Integer userId);
+
+    List<String> selectPowerKeyList(Integer userId);
 }
