@@ -28,6 +28,7 @@ public class ContractController {
     }
     @RequestMapping("ContractList")
     @ResponseBody
+    @RequiresPermissions("contract:query")
     public PageResult ContractList(@RequestParam(value = "currPage", defaultValue = "1") Integer currPage, @RequestParam(value = "pageSize", defaultValue = "2") Integer pageSize,
                                    Contract contract){
         return contractService.ContractList(currPage,pageSize,contract);
@@ -44,7 +45,7 @@ public class ContractController {
     @RequiresPermissions("contract:save")
     public String saveContract( Contract contract){
         contractService.saveContract(contract);
-        return "contract";
+        return "redirect:contract";
     }
 
     @RequestMapping("findContractOne")
