@@ -17,6 +17,8 @@
         <module>feign</module>
         <module>cost-provider</module>
         <module>provider-contract</module>
+        <module>provider-personnel</module>
+        <module>log-receive</module>
     </modules>
 
 

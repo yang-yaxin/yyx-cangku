@@ -22,6 +22,29 @@ spring:
         max-wait: -1
         max-idle: 10
         min-idle: 0
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: 20201029
+      auto-index-creation: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+      direct:
+        acknowledge-mode: manual
+  cloud:
+    bus:
+      enabled: true
+      trace:
+        enabled: true
 
 eureka:
   client:

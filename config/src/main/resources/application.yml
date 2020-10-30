@@ -10,8 +10,6 @@ spring:
         git:
           uri: https://github.com/zhaofan10086/springcloud-config.git
           search-paths: /
-          username:
-          password:
           skip-ssl-validation: true
       label: master
 
