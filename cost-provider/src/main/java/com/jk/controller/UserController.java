@@ -1,10 +1,7 @@
 package com.jk.controller;
 
 
-import com.jk.entity.Fei;
-import com.jk.entity.Ordering;
-import com.jk.entity.SysUser;
-import com.jk.entity.Tree;
+import com.jk.entity.*;
 import com.jk.pojo.PageResult;
 import com.jk.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +44,6 @@ public class UserController {
     SysUser selectUserInfoByCode(@RequestParam String userCode){
         return userService.selectUserInfoByCode(userCode);
     }
-
     @RequestMapping("/selectTreeList")
     public List<Tree> selectTreeList(@RequestParam Integer userId){
         return userService.selectTreeList(userId);
@@ -79,6 +75,29 @@ public class UserController {
         return userService.hui(id);
     }
 
+
+
+
+
+    //店铺分类
+    @RequestMapping("/dianpu")
+    public PageResult dianpu(@RequestParam(value = "currPage", defaultValue = "1") Integer currPage, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,@RequestBody Storeclassification storeclassification) {
+        return userService.dianpu(currPage, pageSize, storeclassification);
+    }
+    @RequestMapping("/dianxin")
+    public void dianxin(@RequestBody Storeclassification storeclassification){
+        userService.dianxin(storeclassification);
+    }
+    @RequestMapping("/dianshan")
+    public void dianshan(@RequestParam String[] id){
+
+        userService.dianshan(id);
+    }
+    @RequestMapping("/dianhui")
+    public Storeclassification dianhui(@RequestParam Integer id){
+
+        return userService.dianhui(id);
+    }
 
 
 

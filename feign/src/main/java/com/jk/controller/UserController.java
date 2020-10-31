@@ -1,13 +1,10 @@
 package com.jk.controller;
 
-import com.jk.entity.Fei;
-import com.jk.entity.Ordering;
+import com.jk.entity.*;
 import com.jk.pojo.PageResult;
 import com.jk.service.UserService;
 
 
-import com.jk.entity.SysUser;
-import com.jk.entity.Tree;
 import com.jk.pojo.PageResult;
 import com.jk.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -110,5 +107,44 @@ public class UserController {
         SysUser user = (SysUser)SecurityUtils.getSubject().getPrincipal();
         return userService.selectTreeList(user.getId());
     }
+
+
+    //店铺分类
+    @RequestMapping("/feilei")
+    public PageResult dianpu(@RequestParam(value = "currPage", defaultValue = "1") Integer currPage, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, Storeclassification storeclassification) {
+        return userService.dianpu(currPage, pageSize, storeclassification);
+    }
+
+    @RequestMapping("/dianxin")
+    public void dianxin(Storeclassification storeclassification){
+        userService.dianxin(storeclassification);
+    }
+
+    @RequestMapping("/dianshan")
+    public void dianshan(String[] id){
+
+        userService.dianshan(id);
+    }
+
+    @RequestMapping("/dianhui")
+    public Storeclassification dianhui(Integer id){
+        return userService.dianhui(id);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

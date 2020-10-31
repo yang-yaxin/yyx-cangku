@@ -1,10 +1,7 @@
 package com.jk.mapper;
 
 
-import com.jk.entity.Fei;
-import com.jk.entity.Ordering;
-import com.jk.entity.SysUser;
-import com.jk.entity.Tree;
+import com.jk.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -42,4 +39,18 @@ public interface UserMapper {
     List<Tree> selectTreeList(Integer pid, Integer userId);
 
     List<String> selectPowerKeyList(Integer userId);
+
+    //店铺分类
+
+    Long findTotala(@Param("storeclassification")Storeclassification storeclassification);
+
+    List<Storeclassification> findPagea(@Param("currPage")Integer currPage, @Param("pageSize")Integer pageSize, @Param("storeclassification")Storeclassification storeclassification);
+
+    void dianxin(Storeclassification storeclassification);
+
+    void dianshan(int parseInt);
+
+    Storeclassification dianhui(Integer id);
+
+    void dianupdate(Storeclassification storeclassification);
 }

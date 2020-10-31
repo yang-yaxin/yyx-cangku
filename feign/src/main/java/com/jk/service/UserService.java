@@ -1,9 +1,6 @@
 package com.jk.service;
 
-import com.jk.entity.Fei;
-import com.jk.entity.Ordering;
-import com.jk.entity.SysUser;
-import com.jk.entity.Tree;
+import com.jk.entity.*;
 import com.jk.pojo.PageResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,5 +46,27 @@ public interface UserService {
 
     @RequestMapping("/selectPowerKeyList")
     List<String> selectPowerKeyList(@RequestParam Integer userId);
+
+
+
+
+
+
+
+
+    //店铺分类
+    @RequestMapping("/dianpu")
+    public PageResult dianpu(@RequestParam(value = "currPage", defaultValue = "1") Integer currPage, @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,@RequestBody Storeclassification storeclassification);
+
+    @RequestMapping("/dianxin")
+    public void dianxin(@RequestBody Storeclassification storeclassification);
+
+    @RequestMapping("/dianshan")
+    public void dianshan(@RequestParam String[] id);
+
+    @RequestMapping("/dianhui")
+    public Storeclassification dianhui(@RequestParam Integer id);
+
+
 
 }

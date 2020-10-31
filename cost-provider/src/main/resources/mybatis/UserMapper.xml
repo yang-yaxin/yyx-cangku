@@ -122,4 +122,70 @@ left join t_person q on x.ren=q.sid
         sur.sys_role_id=srp.sys_role_id and
         srp.sys_permission_id=sp.id and (sp.percode &lt;&gt; '' or sp.percode is not NULL)
     </select>
+
+<!--店铺分类-->
+    <!-- 总条数 -->
+    <select id="findTotala" resultType="java.lang.Long">
+        select count(*) from Storeclassification x left join Storeclassificationx y ON
+        x.type=y.tid
+        <where>
+            <if test="storeclassification.dizhi != null and storeclassification.dizhi != ''">
+                x.dizhi like concat('%','${storeclassification.dizhi}','%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页 -->
+    <select id="findPagea" resultType="Storeclassification">
+        <bind name="key_off" value="(currPage - 1)*pageSize"/>
+        select x.*,y.tname china from Storeclassification x left join Storeclassificationx y ON
+        x.type=y.tid
+        <where>
+            <if test="storeclassification.dizhi != null and storeclassification.dizhi != ''">
+                x.dizhi like concat('%','${storeclassification.dizhi}','%')
+            </if>
+        </where>
+        limit ${key_off},${pageSize}
+    </select>
+    <insert id="dianxin" parameterType="Storeclassification" >
+        insert into Storeclassification(type,price,dizhi,status) values(#{type},#{price},#{dizhi},#{status})
+    </insert>
+    <delete id="dianshan">
+          delete from Storeclassification where id=#{id}
+    </delete>
+    <select id="dianhui" parameterType="int" resultType="Storeclassification">
+          select * from Storeclassification where id=#{id}
+    </select>
+    <update id="dianupdate">
+         update Storeclassification set type=#{type},price=#{price},dizhi=#{dizhi},status=#{status} where id = #{id}
+    </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

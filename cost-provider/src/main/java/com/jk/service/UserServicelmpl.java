@@ -1,9 +1,6 @@
 package com.jk.service;
 
-import com.jk.entity.Fei;
-import com.jk.entity.Ordering;
-import com.jk.entity.SysUser;
-import com.jk.entity.Tree;
+import com.jk.entity.*;
 import com.jk.mapper.UserMapper;
 import com.jk.pojo.PageResult;
 import org.springframework.stereotype.Service;
@@ -51,6 +48,7 @@ public class UserServicelmpl implements UserService{
         }
     }
 
+    //权限加树
     @Override
     public SysUser selectUserInfoByCode(String userCode) {
         return userMapper.selectUserInfoByCode(userCode);
@@ -116,6 +114,38 @@ public class UserServicelmpl implements UserService{
     @Override
     public Ordering hui(Integer id) {
         return userMapper.hui(id);
+    }
+
+
+   //店铺分类
+    @Override
+    public PageResult dianpu(Integer currPage, Integer pageSize, Storeclassification storeclassification) {
+        //1、查询总条数
+        Long total = userMapper.findTotala(storeclassification);
+        //2、查询每页展示数据
+        List<Storeclassification> productList = userMapper.findPagea(currPage, pageSize, storeclassification);
+        Long totalPage = total%pageSize == 0 ? total/pageSize : (total/pageSize + 1);
+        return new PageResult(total, productList, currPage, pageSize, totalPage);
+    }
+
+    @Override
+    public void dianxin(Storeclassification storeclassification) {
+        if(storeclassification.getId()==null){
+            userMapper.dianxin(storeclassification);
+        }
+        userMapper.dianupdate(storeclassification);
+    }
+
+    @Override
+    public void dianshan(String[] id) {
+        for (int i = 0; i < id.length; i++) {
+            userMapper.dianshan((Integer.parseInt(id[i])));
+        }
+    }
+
+    @Override
+    public Storeclassification dianhui(Integer id) {
+        return userMapper.dianhui(id);
     }
 
 

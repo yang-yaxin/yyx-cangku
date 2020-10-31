@@ -20,7 +20,6 @@ public class IndexController {
         return "cgs/dingcan";
     }
 
-
     @RequestMapping("/china")
     public String china(){
         return "show";
@@ -34,6 +33,11 @@ public class IndexController {
     @RequestMapping("/main")
     public String main(){
         return "main";
+    }
+
+    @RequestMapping("/dianpu")
+    public String dianpu() {
+        return "cgs/dianpu";
     }
 
 }
